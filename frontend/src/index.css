@@ -1,0 +1,272 @@
+/* ── 리셋 & 기본 ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue: #1e40af;
+  --blue-light: #3b82f6;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: #fca5a5;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --green-border: #86efac;
+  --gray: #6b7280;
+  --gray-light: #f3f4f6;
+  --gray-border: #e5e7eb;
+  --white: #ffffff;
+  --shadow: 0 1px 3px rgba(0,0,0,.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+  background: var(--gray-light);
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── 앱 레이아웃 ─────────────────────────────── */
+.app { display: flex; flex-direction: column; min-height: 100%; }
+
+.header {
+  background: var(--blue);
+  color: var(--white);
+  padding: 14px 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -.3px; }
+
+.nav { display: flex; gap: 4px; margin-top: 10px; }
+.nav-link {
+  padding: 8px 18px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: background .15s, color .15s;
+}
+.nav-link:hover { color: var(--white); background: rgba(255,255,255,.1); }
+.nav-link.active { background: var(--white); color: var(--blue); }
+
+.main { flex: 1; padding: 16px; max-width: 640px; margin: 0 auto; width: 100%; }
+
+/* ── 카드 ─────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.card-title {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+}
+
+/* ── 버튼 ─────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  font-size: .95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  width: 100%;
+}
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: #1d3a8a; }
+.btn-danger  { background: var(--red);  color: var(--white); }
+.btn-danger:hover:not(:disabled) { background: #b91c1c; }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--blue);
+  color: var(--blue);
+}
+.btn-outline:hover:not(:disabled) { background: var(--gray-light); }
+.btn-sm { padding: 8px 14px; font-size: .85rem; width: auto; }
+
+/* ── 입력폼 ──────────────────────────────────── */
+.form-group { margin-bottom: 12px; }
+.form-label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: 4px; color: #374151; }
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--gray-border);
+  border-radius: var(--radius-sm);
+  font-size: .95rem;
+  outline: none;
+  transition: border-color .15s;
+}
+.form-input:focus { border-color: var(--blue-light); }
+
+/* ── 카메라 캡처 ─────────────────────────────── */
+.camera-area {
+  border: 2px dashed var(--gray-border);
+  border-radius: var(--radius);
+  padding: 32px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  position: relative;
+}
+.camera-area:hover { border-color: var(--blue-light); background: #eff6ff; }
+.camera-area.has-image { border-style: solid; border-color: var(--blue-light); padding: 0; overflow: hidden; }
+.camera-preview { width: 100%; max-height: 320px; object-fit: contain; display: block; }
+.camera-icon { font-size: 3rem; margin-bottom: 8px; }
+.camera-text { color: var(--gray); font-size: .9rem; }
+.camera-input { display: none; }
+
+/* ── 결과 뱃지 ───────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.badge-pass { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+.badge-fail { background: var(--red-light);   color: var(--red);   border: 1px solid var(--red-border); }
+
+/* ── 결과 배너 ───────────────────────────────── */
+.result-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.result-banner.pass { background: var(--green-light); color: var(--green); border: 1.5px solid var(--green-border); }
+.result-banner.fail { background: var(--red-light);   color: var(--red);   border: 1.5px solid var(--red-border); }
+.result-banner-icon { font-size: 1.8rem; }
+
+/* ── 검사 항목 행 ─────────────────────────────── */
+.result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-border);
+}
+.result-row:last-child { border-bottom: none; }
+.result-row.fail { background: var(--red-light); margin: 0 -16px; padding: 12px 16px; }
+
+.result-field { flex: 0 0 40%; font-size: .9rem; font-weight: 600; color: #374151; }
+.result-values { flex: 1; font-size: .88rem; }
+.result-expected { color: var(--gray); margin-bottom: 2px; }
+.result-expected span { font-weight: 500; color: #1f2937; }
+.result-found { }
+.result-found.mismatch { color: var(--red); font-weight: 700; }
+.result-found.match    { color: var(--green); }
+
+/* ── 로딩 스피너 ─────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 22px; height: 22px;
+  border: 3px solid rgba(255,255,255,.4);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 알림 모달 ───────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex; align-items: flex-end;
+  z-index: 200;
+}
+.modal {
+  background: var(--white);
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 20px 16px 32px;
+}
+.modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+.modal-body  { font-size: .9rem; color: #374151; margin-bottom: 16px; line-height: 1.6; }
+.modal-actions { display: flex; gap: 10px; }
+
+/* ── 설정 페이지 ─────────────────────────────── */
+.standard-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-border);
+  gap: 12px;
+  font-size: .9rem;
+}
+.standard-row:last-child { border-bottom: none; }
+.std-field { font-weight: 600; flex: 0 0 42%; }
+.std-value { color: #374151; flex: 1; }
+.std-notes { color: var(--gray); font-size: .8rem; }
+
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 99px;
+  font-size: .88rem;
+  z-index: 300;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  animation: fadeInUp .25s ease;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--gray);
+  padding: 40px 16px;
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+/* ── 탭 요약 수치 ─────────────────────────────── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.summary-item {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.summary-num  { font-size: 1.6rem; font-weight: 800; }
+.summary-label{ font-size: .78rem; color: var(--gray); margin-top: 2px; }
+.summary-item.fail .summary-num { color: var(--red); }
+.summary-item.pass .summary-num { color: var(--green); }
