@@ -26,8 +26,20 @@ async def extract_text(image_bytes: bytes) -> dict:
         "words": ["단어1", "단어2", ...]
     }
     """
+    # ── 개발/테스트용 목업 (API 키 없을 때) ──────────────────
+    # 실제 운영 시 아래 블록을 삭제하거나 주석 처리하세요.
     if not settings.google_vision_api_key:
-        raise ValueError("GOOGLE_VISION_API_KEY 환경변수가 설정되지 않았습니다.")
+        logger.warning("GOOGLE_VISION_API_KEY 미설정 → 목업 OCR 결과 반환 (테스트 전용)")
+        mock_text = (
+            "제품코드: ABC-1234\n"
+            "로트번호: L20260301\n"
+            "수량: 100EA\n"
+            "중량: 500g\n"
+            "유통기한: 2027-03-01"
+        )
+        lines = [l for l in mock_text.split("\n") if l]
+        return {"full_text": mock_text, "lines": lines, "words": []}
+    # ─────────────────────────────────────────────────────────
 
     image_b64 = base64.b64encode(image_bytes).decode("utf-8")
 

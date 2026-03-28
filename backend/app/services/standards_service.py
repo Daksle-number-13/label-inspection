@@ -56,7 +56,18 @@ async def fetch_and_cache() -> list[dict]:
 
     url = settings.standards_excel_url
     if not url:
-        raise ValueError("STANDARDS_EXCEL_URL 환경변수가 설정되지 않았습니다.")
+        # ── 개발/테스트용 목업 기준값 ──────────────────────────
+        logger.warning("STANDARDS_EXCEL_URL 미설정 → 목업 기준값 사용 (테스트 전용)")
+        _cache = [
+            {"field": "제품코드",  "expected": "ABC-1234",    "notes": ""},
+            {"field": "로트번호",  "expected": "L20260301",   "notes": ""},
+            {"field": "수량",      "expected": "100EA",       "notes": ""},
+            {"field": "중량",      "expected": "500g",        "notes": ""},
+            {"field": "유통기한",  "expected": "2027-03-01",  "notes": ""},
+        ]
+        _cache_loaded_at = time.time()
+        return _cache
+        # ──────────────────────────────────────────────────────
 
     logger.info("기준값 엑셀 다운로드 시작: %s", url)
     async with httpx.AsyncClient(follow_redirects=True, timeout=30) as client:
